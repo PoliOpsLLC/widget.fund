@@ -1,0 +1,305 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Form constrains employers based on state/local 1`] = `
+<ul>
+  <li
+    aria-selected="false"
+  >
+    Sample 3
+  </li>
+  <li
+    aria-selected="false"
+  >
+    Sample 4
+  </li>
+  <li
+    aria-selected="false"
+  >
+    Sample 5
+  </li>
+</ul>
+`;
+
+exports[`Form constrains employers based on state/local 2`] = `
+<ul>
+  <li
+    aria-selected="false"
+  >
+    Sample 4
+  </li>
+  <li
+    aria-selected="false"
+  >
+    Sample 5
+  </li>
+</ul>
+`;
+
+exports[`Form constrains employers based on state/local 3`] = `
+<ul>
+  <li
+    aria-selected="false"
+  >
+    Sample 5
+  </li>
+</ul>
+`;
+
+exports[`Form constrains locals based on state/employer 1`] = `
+<ul>
+  <li
+    aria-selected="false"
+  >
+    Sample 1
+  </li>
+  <li
+    aria-selected="false"
+  >
+    Sample 2
+  </li>
+  <li
+    aria-selected="false"
+  >
+    Sample 6
+  </li>
+  <li
+    aria-selected="false"
+  >
+    Sample 7
+  </li>
+</ul>
+`;
+
+exports[`Form constrains locals based on state/employer 2`] = `
+<ul>
+  <li
+    aria-selected="false"
+  >
+    Sample 1
+  </li>
+  <li
+    aria-selected="false"
+  >
+    Sample 6
+  </li>
+  <li
+    aria-selected="false"
+  >
+    Sample 7
+  </li>
+</ul>
+`;
+
+exports[`Form constrains locals based on state/employer 3`] = `
+<ul>
+  <li
+    aria-selected="false"
+  >
+    Sample 1
+  </li>
+</ul>
+`;
+
+exports[`Form loads all options on render 1`] = `
+<div
+  class="content"
+>
+  <h3>
+    This is the widget form
+  </h3>
+  <p>
+    Each one of the fields below help narrow down which organization the member belongs to.
+  </p>
+  <form>
+    <div
+      class="typeahead"
+    >
+      <label
+        for="location"
+      >
+        State of Employment
+      </label>
+      <div
+        class="awesomplete"
+      >
+        <input
+          aria-autocomplete="list"
+          autocomplete="off"
+          name="location"
+        />
+        <ul
+          hidden=""
+        />
+        <span
+          aria-live="assertive"
+          aria-relevant="additions"
+          class="visually-hidden"
+          role="status"
+        />
+      </div>
+    </div>
+    <div
+      class="typeahead"
+    >
+      <label
+        for="employer"
+      >
+        Employer
+      </label>
+      <div
+        class="awesomplete"
+      >
+        <input
+          aria-autocomplete="list"
+          autocomplete="off"
+          name="employer"
+        />
+        <ul
+          hidden=""
+        />
+        <span
+          aria-live="assertive"
+          aria-relevant="additions"
+          class="visually-hidden"
+          role="status"
+        />
+      </div>
+    </div>
+    <div
+      class="typeahead"
+    >
+      <label
+        for="local"
+      >
+        Affiliate/Local
+      </label>
+      <div
+        class="awesomplete"
+      >
+        <input
+          aria-autocomplete="list"
+          autocomplete="off"
+          name="local"
+        />
+        <ul
+          hidden=""
+        />
+        <span
+          aria-live="assertive"
+          aria-relevant="additions"
+          class="visually-hidden"
+          role="status"
+        />
+      </div>
+    </div>
+    <p>
+      Submitting will take what has been entered and redirect the member to the matched organization's forms to complete their sign up process.
+    </p>
+    <button
+      type="submit"
+    >
+      Submit
+    </button>
+  </form>
+</div>
+`;
+
+exports[`Form loads all options on render 2`] = `
+Object {
+  "employer": "",
+  "employerOptions": Array [
+    Object {
+      "address": Object {
+        "state": "IA",
+      },
+      "label": "Sample 3",
+      "locals": Array [
+        1,
+      ],
+      "name": "Sample 3",
+      "pk": 3,
+      "value": 3,
+    },
+    Object {
+      "address": Object {
+        "state": "LA",
+      },
+      "label": "Sample 4",
+      "locals": Array [],
+      "name": "Sample 4",
+      "pk": 4,
+      "value": 4,
+    },
+    Object {
+      "address": Object {
+        "state": "LA",
+      },
+      "label": "Sample 5",
+      "locals": Array [
+        2,
+      ],
+      "name": "Sample 5",
+      "pk": 5,
+      "value": 5,
+    },
+  ],
+  "local": "",
+  "localOptions": Array [
+    Object {
+      "address": Object {
+        "state": "LA",
+      },
+      "employers": Array [
+        5,
+      ],
+      "label": "Sample 2",
+      "name": "Sample 2",
+      "pk": 2,
+      "value": 2,
+    },
+    Object {
+      "address": Object {
+        "state": "IA",
+      },
+      "employers": Array [],
+      "label": "Sample 6",
+      "name": "Sample 6",
+      "pk": 6,
+      "value": 6,
+    },
+    Object {
+      "address": Object {
+        "state": "IA",
+      },
+      "employers": Array [
+        3,
+      ],
+      "label": "Sample 1",
+      "name": "Sample 1",
+      "pk": 1,
+      "value": 1,
+    },
+    Object {
+      "address": null,
+      "employers": Array [],
+      "label": "Sample 7",
+      "name": "Sample 7",
+      "pk": 7,
+      "value": 7,
+    },
+  ],
+  "location": "",
+  "locationOptions": Array [
+    Object {
+      "display_name": "Iowa",
+      "label": "Iowa",
+      "value": "IA",
+    },
+    Object {
+      "display_name": "Louisiana",
+      "label": "Louisiana",
+      "value": "LA",
+    },
+  ],
+}
+`;
