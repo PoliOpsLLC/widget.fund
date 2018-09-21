@@ -1,0 +1,151 @@
+---
+version: 2
+
+base_image: &base_image
+  image: docker:17.07-git
+js_image: &js_image
+  image: circleci/node:10-jessie-browsers
+
+build_js_key: &build_js_key
+  key: widgetfund-build-js-85-{{ checksum "package.json" }}
+
+attach: &attach
+  attach_workspace:
+    at: .
+restore_js: &restore_js
+  restore_cache:
+    *build_js_key
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - checkout_code
+      - build_js:
+          requires:
+            - checkout_code
+      - test_js:
+          requires:
+            - build_js
+      - lint_js:
+          requires:
+            - build_js
+      - deploy_alpha:
+          requires:
+            - test_js
+            - lint_js
+          filters:
+            branches:
+              only: develop
+      - deploy_production:
+          requires:
+            - test_js
+            - lint_js
+          filters:
+            branches:
+              only: master
+
+jobs:
+  checkout_code:
+    docker:
+      - *base_image
+    working_directory: ~/widgetfund
+    steps:
+      - checkout
+      - persist_to_workspace:
+          root: .
+          paths:
+            - "*"
+  build_js:
+    docker:
+      - *js_image
+    working_directory: ~/widgetfund
+    steps:
+      - *attach
+      - *restore_js
+      - run:
+          name: install dependencies
+          command: |
+            [ -d "node_modules" ] || yarn install
+      - save_cache:
+          <<: *build_js_key
+          paths:
+            - ~/widgetfund/node_modules
+  test_js:
+    docker:
+      - *js_image
+    working_directory: ~/widgetfund
+    steps:
+      - *attach
+      - *restore_js
+      - run:
+          name: test javascript
+          command: |
+            yarn test
+  lint_js:
+    docker:
+      - *js_image
+    working_directory: ~/widgetfund
+    steps:
+      - *attach
+      - *restore_js
+      - run:
+          name: lint javascript
+          command: |
+            yarn lint
+  deploy_alpha:
+    docker:
+      - *js_image
+    working_directory: ~/widgetfund
+    steps:
+      - *attach
+      - *restore_js
+      - run:
+          name: install aws cli
+          command: |
+            sudo apt-get install -y -qq python-dev build-essential
+            sudo apt-get install -y -qq python-pip
+            pip install awscli --upgrade --user
+      - run:
+          name: update environment for deploy
+          command: |
+            echo 'export PATH=~/.local/bin:$PATH' >> $BASH_ENV
+            echo 'export API_URL=$ALPHA_API_URL' >> $BASH_ENV
+            echo 'export CLOUDFRONT_DIST=$ALPHA_CLOUDFRONT_DIST' >> $BASH_ENV
+            echo 'export RELEASE_NAME=$(ENV=alpha npm run --silent release:name)' >> $BASH_ENV
+            echo 'export S3_BUCKET=$ALPHA_S3_BUCKET' >> $BASH_ENV
+            echo 'export S3_REGION=$ALPHA_S3_REGION' >> $BASH_ENV
+      - run:
+          name: deploy alpha
+          command: |
+            source $BASH_ENV
+            aws configure set default.s3.signature_version s3v4
+            ENV=alpha REF=$CIRCLE_SHA1 yarn deploy
+  deploy_production:
+    docker:
+      - *js_image
+    working_directory: ~/widgetfund
+    steps:
+      - *attach
+      - *restore_js
+      - run:
+          name: install aws cli
+          command: |
+            sudo apt-get install -y -qq python-dev build-essential
+            sudo apt-get install -y -qq python-pip
+            pip install awscli --upgrade --user
+      - run:
+          name: update environment for deploy
+          command: |
+            echo 'export PATH=~/.local/bin:$PATH' >> $BASH_ENV
+            echo 'export API_URL=$PRODUCTION_API_URL' >> $BASH_ENV
+            echo 'export CLOUDFRONT_DIST=$PRODUCTION_CLOUDFRONT_DIST' >> $BASH_ENV
+            echo 'export RELEASE_NAME=$(ENV=production npm run --silent release:name)' >> $BASH_ENV
+            echo 'export S3_BUCKET=$PRODUCTION_S3_BUCKET' >> $BASH_ENV
+            echo 'export S3_REGION=$PRODUCTION_S3_REGION' >> $BASH_ENV
+      - run:
+          name: deploy production
+          command: |
+            source $BASH_ENV
+            aws configure set default.s3.signature_version s3v4
+            ENV=production REF=$CIRCLE_SHA1 yarn deploy

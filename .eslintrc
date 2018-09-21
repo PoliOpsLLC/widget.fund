@@ -1,0 +1,80 @@
+{
+    "env": {
+        "browser": true,
+        "es6": true,
+        "jest": true
+    },
+    "extends": ["standard", "standard-preact"],
+    "globals": {
+        "setImmediate": true,
+        "beforeAll": true,
+        "afterAll": true
+    },
+    "parser": "babel-eslint",
+    "parserOptions": {
+        "ecmaVersion": 7,
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "sourceType": "module"
+    },
+    "plugins": [
+        "react"
+    ],
+    "rules": {
+        "comma-dangle": [
+            "error",
+            "always-multiline"
+        ],
+        "indent": [
+            "error",
+            4
+        ],
+        "jsx-quotes": [
+            "error",
+            "prefer-double"
+        ],
+        "linebreak-style": [
+            "error",
+            "unix"
+        ],
+        "no-return-assign": [
+            "off"
+        ],
+        "operator-linebreak": [
+            "error",
+            "after"
+        ],
+        "quotes": [
+            "error",
+            "single"
+        ],
+        "semi": [
+            "error",
+            "always"
+        ],
+        "space-before-function-paren": [
+            "error",
+            {
+                "anonymous": "never",
+                "asyncArrow": "always",
+                "named": "never"
+            }
+        ],
+        "react/display-name": [
+            "off"
+        ],
+        "react/jsx-indent": [
+            "error",
+            4
+        ],
+        "react/jsx-indent-props": [
+            "error",
+            4
+        ],
+        "react/prop-types": [
+            "error",
+            { "skipUndeclared": true }
+        ]
+    }
+}

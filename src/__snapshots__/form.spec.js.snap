@@ -1,0 +1,305 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Form constrains employers based on state/local 1`] = `
+<ul>
+  <li
+    aria-selected="false"
+  >
+    Louisiana State Penitentiary (LSP)
+  </li>
+  <li
+    aria-selected="false"
+  >
+    INDEPENDENCE MENTAL HEALTH FACILITY
+  </li>
+  <li
+    aria-selected="false"
+  >
+    Louisiana Department of Health (LDH)
+  </li>
+</ul>
+`;
+
+exports[`Form constrains employers based on state/local 2`] = `
+<ul>
+  <li
+    aria-selected="false"
+  >
+    Louisiana State Penitentiary (LSP)
+  </li>
+  <li
+    aria-selected="false"
+  >
+    Louisiana Department of Health (LDH)
+  </li>
+</ul>
+`;
+
+exports[`Form constrains employers based on state/local 3`] = `
+<ul>
+  <li
+    aria-selected="false"
+  >
+    Louisiana State Penitentiary (LSP)
+  </li>
+</ul>
+`;
+
+exports[`Form constrains locals based on state/employer 1`] = `
+<ul>
+  <li
+    aria-selected="false"
+  >
+    Council 61: Local 12
+  </li>
+  <li
+    aria-selected="false"
+  >
+    Council 17: Local 3056
+  </li>
+  <li
+    aria-selected="false"
+  >
+    Council 61: Local 2987
+  </li>
+  <li
+    aria-selected="false"
+  >
+    Council 61: Local 2998
+  </li>
+</ul>
+`;
+
+exports[`Form constrains locals based on state/employer 2`] = `
+<ul>
+  <li
+    aria-selected="false"
+  >
+    Council 61: Local 12
+  </li>
+  <li
+    aria-selected="false"
+  >
+    Council 61: Local 2987
+  </li>
+  <li
+    aria-selected="false"
+  >
+    Council 61: Local 2998
+  </li>
+</ul>
+`;
+
+exports[`Form constrains locals based on state/employer 3`] = `
+<ul>
+  <li
+    aria-selected="false"
+  >
+    Council 61: Local 2987
+  </li>
+</ul>
+`;
+
+exports[`Form loads all options on render 1`] = `
+<div
+  class="content"
+>
+  <h3>
+    This is the widget form
+  </h3>
+  <p>
+    Each one of the fields below help narrow down which organization the member belongs to.
+  </p>
+  <form>
+    <div
+      class="typeahead"
+    >
+      <label
+        for="location"
+      >
+        State of Employment
+      </label>
+      <div
+        class="awesomplete"
+      >
+        <input
+          aria-autocomplete="list"
+          autocomplete="off"
+          name="location"
+        />
+        <ul
+          hidden=""
+        />
+        <span
+          aria-live="assertive"
+          aria-relevant="additions"
+          class="visually-hidden"
+          role="status"
+        />
+      </div>
+    </div>
+    <div
+      class="typeahead"
+    >
+      <label
+        for="employer"
+      >
+        Employer
+      </label>
+      <div
+        class="awesomplete"
+      >
+        <input
+          aria-autocomplete="list"
+          autocomplete="off"
+          name="employer"
+        />
+        <ul
+          hidden=""
+        />
+        <span
+          aria-live="assertive"
+          aria-relevant="additions"
+          class="visually-hidden"
+          role="status"
+        />
+      </div>
+    </div>
+    <div
+      class="typeahead"
+    >
+      <label
+        for="local"
+      >
+        Affiliate/Local
+      </label>
+      <div
+        class="awesomplete"
+      >
+        <input
+          aria-autocomplete="list"
+          autocomplete="off"
+          name="local"
+        />
+        <ul
+          hidden=""
+        />
+        <span
+          aria-live="assertive"
+          aria-relevant="additions"
+          class="visually-hidden"
+          role="status"
+        />
+      </div>
+    </div>
+    <p>
+      Submitting will take what has been entered and redirect the member to the matched organization's forms to complete their sign up process.
+    </p>
+    <button
+      type="submit"
+    >
+      Submit
+    </button>
+  </form>
+</div>
+`;
+
+exports[`Form loads all options on render 2`] = `
+Object {
+  "employer": "",
+  "employerOptions": Array [
+    Object {
+      "address": Object {
+        "state": "IA",
+      },
+      "label": "INDEPENDENCE MENTAL HEALTH FACILITY",
+      "locals": Array [
+        812,
+      ],
+      "name": "INDEPENDENCE MENTAL HEALTH FACILITY",
+      "pk": 543,
+      "value": 543,
+    },
+    Object {
+      "address": Object {
+        "state": "LA",
+      },
+      "label": "Louisiana Department of Health (LDH)",
+      "locals": Array [],
+      "name": "Louisiana Department of Health (LDH)",
+      "pk": 546,
+      "value": 546,
+    },
+    Object {
+      "address": Object {
+        "state": "LA",
+      },
+      "label": "Louisiana State Penitentiary (LSP)",
+      "locals": Array [
+        814,
+      ],
+      "name": "Louisiana State Penitentiary (LSP)",
+      "pk": 547,
+      "value": 547,
+    },
+  ],
+  "local": "",
+  "localOptions": Array [
+    Object {
+      "address": Object {
+        "state": "LA",
+      },
+      "employers": Array [
+        547,
+      ],
+      "label": "Council 17: Local 3056",
+      "name": "Council 17: Local 3056",
+      "pk": 814,
+      "value": 814,
+    },
+    Object {
+      "address": Object {
+        "state": "IA",
+      },
+      "employers": Array [],
+      "label": "Council 61: Local 12",
+      "name": "Council 61: Local 12",
+      "pk": 813,
+      "value": 813,
+    },
+    Object {
+      "address": Object {
+        "state": "IA",
+      },
+      "employers": Array [
+        543,
+      ],
+      "label": "Council 61: Local 2987",
+      "name": "Council 61: Local 2987",
+      "pk": 812,
+      "value": 812,
+    },
+    Object {
+      "address": null,
+      "employers": Array [],
+      "label": "Council 61: Local 2998",
+      "name": "Council 61: Local 2998",
+      "pk": 811,
+      "value": 811,
+    },
+  ],
+  "location": "",
+  "locationOptions": Array [
+    Object {
+      "display_name": "Iowa",
+      "label": "Iowa",
+      "value": "IA",
+    },
+    Object {
+      "display_name": "Louisiana",
+      "label": "Louisiana",
+      "value": "LA",
+    },
+  ],
+}
+`;
