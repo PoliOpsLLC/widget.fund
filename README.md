@@ -1,6 +1,6 @@
 # Member Driver
 
-[![CircleCI](https://circleci.com/gh/PoliOpsLLC/widget.fund.svg?style=svg&circle-token=106f63f42cbc6494a70c56d603c40dbfba8cdb0c)](https://circleci.com/gh/PoliOpsLLC/widget.fund)
+[![GitHub release](https://img.shields.io/github/PoliOpsLLC/widget.fund.svg)](https://github.com/PoliOpsLLC/widget.fund/releases) ![CircleCI (all branches)](https://img.shields.io/circleci/project/github/PoliOpsLLC/widget.fund.svg)
 
 Embedded JS widget powered by https://pledgeup.com/ to help members sign up.
 
