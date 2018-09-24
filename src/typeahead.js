@@ -41,11 +41,15 @@ export default class Typeahead extends Component {
     }
 
     render() {
+        // Chrome really doesn't respect autocomplete="off" and other
+        // solutions to disable autofilling fields, so avoid autofill
+        // detection by changing the input name every render
+        const name = `${this.props.name}-${Date.now()}`;
         return (
             <div class="typeahead">
-                <label for={this.props.name}>{this.props.label}</label>
+                <label for={name}>{this.props.label}</label>
                 <input
-                    name={this.props.name}
+                    name={name}
                     onFocus={() => {
                         if (!this._awesomplete) return;
                         this.props.onOpen(this.updateList);

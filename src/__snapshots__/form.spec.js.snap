@@ -115,7 +115,7 @@ exports[`Form loads all options on render 1`] = `
       class="typeahead"
     >
       <label
-        for="location"
+        for="location-1537832579326"
       >
         State of Employment
       </label>
@@ -125,7 +125,7 @@ exports[`Form loads all options on render 1`] = `
         <input
           aria-autocomplete="list"
           autocomplete="off"
-          name="location"
+          name="location-1537832579326"
         />
         <ul
           hidden=""
@@ -142,7 +142,7 @@ exports[`Form loads all options on render 1`] = `
       class="typeahead"
     >
       <label
-        for="employer"
+        for="employer-1537832579326"
       >
         Employer
       </label>
@@ -152,7 +152,7 @@ exports[`Form loads all options on render 1`] = `
         <input
           aria-autocomplete="list"
           autocomplete="off"
-          name="employer"
+          name="employer-1537832579326"
         />
         <ul
           hidden=""
@@ -169,7 +169,7 @@ exports[`Form loads all options on render 1`] = `
       class="typeahead"
     >
       <label
-        for="local"
+        for="local-1537832579326"
       >
         Affiliate/Local
       </label>
@@ -179,7 +179,7 @@ exports[`Form loads all options on render 1`] = `
         <input
           aria-autocomplete="list"
           autocomplete="off"
-          name="local"
+          name="local-1537832579326"
         />
         <ul
           hidden=""

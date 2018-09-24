@@ -41,6 +41,7 @@ describe('Form', () => {
     };
 
     beforeAll(() => {
+        global.Date.now = jest.fn(() => 1537832579326);
         scratch = document.createElement('div');
         document.body.appendChild(scratch);
     });
@@ -96,18 +97,18 @@ describe('Form', () => {
         await mount();
         // wait for setState and its callback to finish at end of promise
         process.nextTick(() => {
-            simulateOn('input[name="employer"]', 'focus');
-            expect(document.querySelector('input[name="employer"] ~ ul')).toMatchSnapshot();
+            simulateOn('input[name^="employer"]', 'focus');
+            expect(document.querySelector('input[name^="employer"] ~ ul')).toMatchSnapshot();
 
-            simulateOn('input[name="location"]', 'focus');
-            simulateOn('input[name="location"] ~ ul li:last-child', 'mousedown', { button: 0 });
-            simulateOn('input[name="employer"]', 'focus');
-            expect(document.querySelector('input[name="employer"] ~ ul')).toMatchSnapshot();
+            simulateOn('input[name^="location"]', 'focus');
+            simulateOn('input[name^="location"] ~ ul li:last-child', 'mousedown', { button: 0 });
+            simulateOn('input[name^="employer"]', 'focus');
+            expect(document.querySelector('input[name^="employer"] ~ ul')).toMatchSnapshot();
 
-            simulateOn('input[name="local"]', 'focus');
-            simulateOn('input[name="local"] ~ ul li:first-child', 'mousedown', { button: 0 });
-            simulateOn('input[name="employer"]', 'focus');
-            expect(document.querySelector('input[name="employer"] ~ ul')).toMatchSnapshot();
+            simulateOn('input[name^="local"]', 'focus');
+            simulateOn('input[name^="local"] ~ ul li:first-child', 'mousedown', { button: 0 });
+            simulateOn('input[name^="employer"]', 'focus');
+            expect(document.querySelector('input[name^="employer"] ~ ul')).toMatchSnapshot();
             done();
         });
     });
@@ -116,18 +117,18 @@ describe('Form', () => {
         await mount();
         // wait for setState and its callback to finish at end of promise
         process.nextTick(() => {
-            simulateOn('input[name="local"]', 'focus');
-            expect(document.querySelector('input[name="local"] ~ ul')).toMatchSnapshot();
+            simulateOn('input[name^="local"]', 'focus');
+            expect(document.querySelector('input[name^="local"] ~ ul')).toMatchSnapshot();
 
-            simulateOn('input[name="location"]', 'focus');
-            simulateOn('input[name="location"] ~ ul li:first-child', 'mousedown', { button: 0 });
-            simulateOn('input[name="local"]', 'focus');
-            expect(document.querySelector('input[name="local"] ~ ul')).toMatchSnapshot();
+            simulateOn('input[name^="location"]', 'focus');
+            simulateOn('input[name^="location"] ~ ul li:first-child', 'mousedown', { button: 0 });
+            simulateOn('input[name^="local"]', 'focus');
+            expect(document.querySelector('input[name^="local"] ~ ul')).toMatchSnapshot();
 
-            simulateOn('input[name="employer"]', 'focus');
-            simulateOn('input[name="employer"] ~ ul li:first-child', 'mousedown', { button: 0 });
-            simulateOn('input[name="local"]', 'focus');
-            expect(document.querySelector('input[name="local"] ~ ul')).toMatchSnapshot();
+            simulateOn('input[name^="employer"]', 'focus');
+            simulateOn('input[name^="employer"] ~ ul li:first-child', 'mousedown', { button: 0 });
+            simulateOn('input[name^="local"]', 'focus');
+            expect(document.querySelector('input[name^="local"] ~ ul')).toMatchSnapshot();
             done();
         });
     });
@@ -136,12 +137,12 @@ describe('Form', () => {
         await mount();
         // wait for setState and its callback to finish at end of promise
         process.nextTick(() => {
-            simulateOn('input[name="location"]', 'focus');
-            simulateOn('input[name="location"] ~ ul li:first-child', 'mousedown', { button: 0 });
-            simulateOn('input[name="employer"]', 'focus');
-            simulateOn('input[name="employer"] ~ ul li:first-child', 'mousedown', { button: 0 });
-            simulateOn('input[name="local"]', 'focus');
-            simulateOn('input[name="local"] ~ ul li:first-child', 'mousedown', { button: 0 });
+            simulateOn('input[name^="location"]', 'focus');
+            simulateOn('input[name^="location"] ~ ul li:first-child', 'mousedown', { button: 0 });
+            simulateOn('input[name^="employer"]', 'focus');
+            simulateOn('input[name^="employer"] ~ ul li:first-child', 'mousedown', { button: 0 });
+            simulateOn('input[name^="local"]', 'focus');
+            simulateOn('input[name^="local"] ~ ul li:first-child', 'mousedown', { button: 0 });
 
             global.parent.location.assign = jest.fn();
             simulateOn('button[type="submit"]', 'click');
