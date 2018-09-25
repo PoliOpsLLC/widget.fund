@@ -5,13 +5,16 @@ const webpack = require('webpack');
 module.exports = {
     entry: {
         app: './src/index.js',
+        button: './src/button.js',
         widget: './src/widget.js',
     },
 
     output: {
         filename: ({ chunk: { name } }) => {
             if (process.env.RELEASE_NAME) {
-                return name === 'widget' ? '[name].js' : `[name].${process.env.RELEASE_NAME}.js`;
+                return ['button', 'widget'].indexOf(name) > -1 ?
+                    '[name].js' :
+                    `[name].${process.env.RELEASE_NAME}.js`;
             }
             return '[name].[chunkhash].js';
         },
