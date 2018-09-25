@@ -1,23 +1,17 @@
-window.pledgeupWidget = (options = {}) => {
-    const config = {
-        selector: '[data-pledgeup-widget]',
-        version: process.env.RELEASE_NAME || '',
-        customStyle: '',
-        height: '470px',
-        width: '300px',
-        ...options,
-    };
+import './style.css';
 
-    document.querySelectorAll(config.selector).forEach(node => {
-        const container = document.createElement('iframe');
-        container.srcdoc = `
-            ${config.customStyle ? `<style>${config.customStyle}</style>` : ''}
-            <script src="app.${config.version}.js"></script>
-            <script>window.initializeWidget(${JSON.stringify(config)})</script>
-        `;
-        container.width = config.width;
-        container.height = config.height;
-        container.style.border = 0;
-        node.appendChild(container);
+import { h, render } from 'preact';
+
+import { bootstrap } from './shared';
+import Form from './form';
+
+window.init = config => {
+    const errorMessage = `unable to initialize widget with key: ${config.apiKey}`;
+    bootstrap(config.apiKey, errorMessage).then(data => {
+        return render(
+            <Form {...config} {...data} />,
+            document.body,
+            document.body.lastElementChild,
+        );
     });
 };

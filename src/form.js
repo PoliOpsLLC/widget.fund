@@ -4,6 +4,7 @@ import { h, Component } from 'preact';
 
 import fetch from 'unfetch';
 
+import { packParams } from './shared';
 import Typeahead from './typeahead';
 
 export default class Form extends Component {
@@ -21,7 +22,7 @@ export default class Form extends Component {
 
     loadOptions = (url, name, label, value) => {
         const params = { 'key': this.props.apiKey, 'token': this.props.token };
-        return fetch(`${url}?${this.props.packParams(params)}`, { credentials: 'include' })
+        return fetch(`${url}?${packParams(params)}`, { credentials: 'include' })
             .then(resp => resp.json())
             .then(data => {
                 return this.setState({
@@ -90,7 +91,7 @@ export default class Form extends Component {
         evt.preventDefault();
         const { apiKey, token } = this.props;
         const { employer, local, location } = this.state;
-        const params = this.props.packParams({ employer, local, location, key: apiKey, token });
+        const params = packParams({ employer, local, location, key: apiKey, token });
         window.parent.location.assign(`${this.props.submit_url}?${params}`);
         return false;
     }

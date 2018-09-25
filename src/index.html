@@ -43,43 +43,66 @@
     <section class="demo-form">
       <label for="apiKey">API Key</label>
       <input name="apiKey" />
+
       <label for="location">State Abbr</label>
       <input name="location" />
+
       <label for="employer">Employer PK</label>
       <input name="employer" />
+
       <label for="local">Local PK</label>
       <input name="local" />
+
+      <label for="buttonText">Button Text</label>
+      <input name="buttonText" />
+
       <button onclick="window.configureButton()">Initialize Button</button>
       <button onclick="window.configureWidget()">Initialize Widget</button>
     </section>
 
-    <div data-pledgeup-widget></div>
+    <section class="demo-test">
+      <div data-pledgeup-widget></div>
+    </section>
 
-    <script src="<%= files.chunks.widget.entry %>"></script>
+    <script src="<%= files.chunks.widgetLoader.entry %>"></script>
+
     <script>
       <% if (RELEASE_NAME) { %>
-        var version = '<%= RELEASE_NAME %>';
+        window.buttonVersion = window.widgetVersion = '<%= RELEASE_NAME %>';
       <% } else { %>
-        var version = '<%= files.chunks.app.hash %>';
+        window.buttonVersion = '<%= files.chunks.button.hash %>';
+        window.widgetVersion = '<%= files.chunks.widget.hash %>';
       <% } %>
     </script>
 
     <script>
+      var buttonScript;
+      var resetTest = function() {
+        if (buttonScript) {
+          buttonScript.nextSibling.remove();
+          buttonScript.remove();
+        }
+        document.querySelector('[data-pledgeup-widget]').innerHTML = '';
+      };
       window.configureButton = function() {
-        if (script) script.remove();
-        var script = document.createElement('script');
-        script.setAttribute('data-pledgeup-button', true);
-        script.setAttribute('data-pledgeup-location', document.querySelector('input[name="location"]').value);
-        script.setAttribute('data-pledgeup-employer', document.querySelector('input[name="employer"]').value);
-        script.setAttribute('data-pledgeup-local', document.querySelector('input[name="local"]').value);
-        script.src = "<%= files.chunks.button.entry %>";
-        document.body.appendChild(script);
+        resetTest();
+        buttonScript = document.createElement('script');
+        buttonScript.dataset.width = 110;
+        buttonScript.dataset.height = 40;
+        buttonScript.dataset.text = 'test button';
+        buttonScript.dataset.key = document.querySelector('input[name="apiKey"]').value;
+        buttonScript.dataset.location = document.querySelector('input[name="location"]').value;
+        buttonScript.dataset.employer = document.querySelector('input[name="employer"]').value;
+        buttonScript.dataset.local = document.querySelector('input[name="local"]').value;
+        buttonScript.src = "<%= files.chunks.buttonLoader.entry %>";
+        document.querySelector('.demo-test').appendChild(buttonScript);
       };
 
       window.configureWidget = function() {
+        resetTest();
         window.pledgeupWidget({
           apiKey: document.querySelector('input[name="apiKey"]').value,
-          version: version,
+          version: window.widgetVersion,
         });
       };
     </script>

@@ -14,7 +14,7 @@
     "deploy:s3": "aws --region $S3_REGION s3 sync dist $S3_BUCKET",
     "deploy:cloudfront": "aws configure set preview.cloudfront true && aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_DIST --paths /index.html",
     "deploy": "yarn build && yarn deploy:s3 && yarn deploy:cloudfront && yarn release:create",
-    "visualize": "webpack --mode production --profile --json > dist/webpack-stats.json && webpack-bundle-analyzer dist/webpack-stats.json"
+    "visualize": "mkdir -p dist && webpack --mode production --profile --json > dist/webpack-stats.json && webpack-bundle-analyzer dist/webpack-stats.json"
   },
   "repository": {
     "type": "git",

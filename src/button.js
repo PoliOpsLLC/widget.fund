@@ -1,15 +1,19 @@
-(function() {
-    var button = document.createElement('button');
-    button.setAttribute('data-pledgeup-button', true);
-    button.innerHTML = 'preloaded button';
+import { bootstrap, packParams } from './shared';
 
-    var transfer = function(target, attr) {
-        target.setAttribute(attr, document.currentScript.getAttribute(attr));
-    };
+window.init = config => {
+    bootstrap(config.key).then(data => {
+        const prefill = Object.keys(config).reduce((filled, key) => {
+            if (['text'].indexOf(key) && config[key]) filled[key] = config[key];
+            return filled;
+        }, {});
 
-    transfer(button, 'data-pledgeup-location');
-    transfer(button, 'data-pledgeup-employer');
-    transfer(button, 'data-pledgeup-local');
+        const button = document.createElement('button');
+        button.onclick = evt => {
+            const destination = `${data.submit_url}?${packParams({ ...prefill, token: data.token })}`;
+            window.parent.location.assign(destination);
+        };
+        button.innerHTML = config.text;
 
-    document.currentScript.insertAdjacentElement('afterend', button);
-})();
+        document.body.appendChild(button);
+    });
+};
