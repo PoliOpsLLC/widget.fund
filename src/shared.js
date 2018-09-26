@@ -1,8 +1,4 @@
-export const packParams = params => {
-    return Object.keys(params).map(key => {
-        return `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`;
-    }).join('&');
-};
+import fetch from 'unfetch';
 
 export const bootstrap = (key, errorMessage = 'something went wrong') => {
     const handleError = err => {
@@ -20,6 +16,26 @@ export const bootstrap = (key, errorMessage = 'something went wrong') => {
     };
 
     return fetch(`${process.env.API_URL}${process.env.BOOTSTRAP_ENDPOINT}`, options)
-        .then(r => r.json(), handleError)
+        .then(resp => {
+            if (!resp.ok) throw Error(resp.statusText);
+            return resp.json();
+        })
         .catch(handleError);
 };
+
+export const flushPromises = () => new Promise(resolve => setImmediate(resolve));
+
+export const packParams = params => {
+    return Object.keys(params).map(key => {
+        return `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`;
+    }).join('&');
+};
+
+export const simulateOn = (target, name, props = {}) => {
+    const node = document.querySelector(target);
+    const event = new Event(name, { bubbles: true });
+    Object.assign(event, props);
+    node.dispatchEvent(event);
+};
+
+export default { bootstrap, flushPromises, packParams, simulateOn };

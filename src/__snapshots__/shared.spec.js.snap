@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Shared bootstrap handles network errors 1`] = `
+<span>
+  something went wrong
+</span>
+`;
+
+exports[`Shared packParams 1`] = `"reserved=%3B%2C%2F%3F%3A%40%26%3D%2B%24&unescaped=-_.!~*'()&alphanum=ABC%20abc%20%23123"`;

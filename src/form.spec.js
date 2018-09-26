@@ -1,22 +1,8 @@
 import { h, render } from 'preact';
 import nock from 'nock';
 
+import { flushPromises, packParams, simulateOn } from './shared';
 import Form from './form';
-
-const flushPromises = () => new Promise(resolve => setImmediate(resolve));
-
-const packParams = params => {
-    return Object.keys(params).map(key => {
-        return `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`;
-    }).join('&');
-};
-
-const simulateOn = (target, name, props = {}) => {
-    const node = document.querySelector(target);
-    const event = new Event(name, { bubbles: true });
-    Object.assign(event, props);
-    node.dispatchEvent(event);
-};
 
 describe('Form', () => {
     let result, scratch;

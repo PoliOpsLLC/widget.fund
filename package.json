@@ -5,8 +5,7 @@
   "scripts": {
     "clean": "rm -rf dist",
     "lint": "eslint src",
-    "test": "jest",
-    "test-break": "node --inspect=9230 node_modules/.bin/jest --runInBand",
+    "test": "API_URL='http://localhost' BOOTSTRAP_ENDPOINT='/bootstrap/' jest",
     "start": "webpack-dev-server --mode development",
     "build": "yarn clean && webpack --mode production",
     "release:create": "node scripts/github.js create-release --ref $REF --environ $ENV --token $GITHUB_API_TOKEN",
@@ -65,6 +64,7 @@
     "moduleNameMapper": {
       "\\.css$": "identity-obj-proxy"
     },
-    "rootDir": "./src"
+    "rootDir": "./src",
+    "silent": true
   }
 }
