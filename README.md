@@ -2,16 +2,25 @@
 
 [![GitHub release](https://img.shields.io/github/release/PoliOpsLLC/widget.fund.svg)](https://github.com/PoliOpsLLC/widget.fund/releases) ![CircleCI](https://circleci.com/gh/PoliOpsLLC/widget.fund.svg?style=shield&circle-token=106f63f42cbc6494a70c56d603c40dbfba8cdb0c)
 
-Embedded JS widget powered by https://pledgeup.com/ to help members sign up.
+Embedded integrations with https://pledgeup.com/ to help guide members to sign up.
+
+There are two types of integrations available to choose from:
+
+ * Widget - An embedded set of typeahead fields that narrow down which organization a member belongs in, with a submit button that will redirect them to their next steps based on the entered typeahead information.
+ * Button - A preconfigured button set to send a member to a particular formset for sign up based on the information available in the Widget typeaheads.
 
 ## Installation
 
+The Widget and Button vary in configuration and installation, but both require an API key to initialize correctly.
+
+### Widget
+
 Installing the widget is divided into three main parts:
 
- 1. Add the widget script to your page:
+ 1. Add the widget loader script to your page:
 
 ```html
-<script src="https://prod.memberdriver.com/widget.js"></script>
+<script src="https://prod.memberdriver.com/widget-loader.js"></script>
 ```
 
  2. Ensure the element you want the widget to load into on your page has the special attribute the widget can find. This attribute can be overridden as described in the configuration section:
@@ -28,7 +37,17 @@ Installing the widget is divided into three main parts:
 window.pledgeupWidget({ apiKey: 'API_KEY' });
 ```
 
+### Button
+
+Installing the button on your page is as simple as embedding the button loader script. The button will load wherever the script is placed, so ensure it's positioned in the layout appropriately. PledgeUp hosts a button snippet creator where it can be configured and generate the script tag you need to embed, which should look similar to this:
+
+```html
+<script src="https://prod.memberdriver.com/button-loader.js"></script>
+```
+
 ## Configuration
+
+### Widget
 
 There are many options available to further configure the widget. All optional settings have sensible defaults, simply pass them in alongside the required `apiKey` in the config object to override those defaults. The available options are as follow:
 
@@ -39,6 +58,15 @@ There are many options available to further configure the widget. All optional s
 | customStyle | CSS overrides to default styling within the widget | `''` |
 | height | how tall the widget should be when loaded | `470px` |
 | width | how wide the widget should be when loaded | `300px` |
+
+### Button
+
+All the following options are optional and included in the button snippet creator
+
+| Name | Description | Default |
+| --- | --- | --- |
+| customStyle | CSS overrides to default styling on the button | `''` |
+| text | Text to display in the button | `Sign Up` |
 
 ## License
 
