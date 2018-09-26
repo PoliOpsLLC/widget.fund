@@ -2,67 +2,89 @@
 <html>
   <head>
     <title><%= options.title  %></title>
+    <script src="//cdn.jsdelivr.net/combine/npm/jquery@3.3.1,npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/bootswatch@4.1.3/dist/flatly/bootstrap.min.css">
+
     <style>
-      body {
-        text-align: center;
-        margin: 0 auto;
-        padding: 2rem;
-        max-width: 600px;
-        line-height: 1.5;
-        background: #008b42;
-        color: white;
-      }
-
-      .demo-form {
-        margin-bottom: 2rem;
-      }
-
-      .demo-form label,
-      .demo-form input {
-        display: block;
-      }
-
-      .demo-form input {
-        margin: .25rem auto 1.25rem;
-        width: 300px;
-      }
-
-      .demo-form button {
-        margin: 1rem;
-      }
-
-      p {
-        margin: 1rem 0 2rem;
+      @media (min-width: 768px) {
+        .button-test-area, .widget-test-area {
+          flex: 0 0 calc(50% - 7.5px);
+        }
       }
     </style>
   </head>
-  <body>
-    <h1>Example Union Website</h1>
-    <p>This is where the main content of the website would be. Below is an installed web widget. Its width, height, placement, and other components will be configurable per widget.</p>
 
-    <section class="demo-form">
-      <label for="apiKey">API Key</label>
-      <input name="apiKey" />
+  <body class="bg-light">
+    <div class="container">
+      <div class="pt-5 pb-4 text-center">
+        <h2>Widget and Button Test Forms</h2>
+        <p class="px-md-5 mt-4">Preview both the web widget and prefilled buttons with specific API keys and associated parameters. Submitting will redirect to either the white labeled profile or external form page as noted on an Organization's <code>widget_redirect</code> field.</p>
+      </div>
 
-      <label for="location">State Abbr</label>
-      <input name="location" />
+      <div class="card">
+        <div class="card-header">
+          <ul class="nav nav-tabs card-header-tabs" id="tabs" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" id="widget-tab" data-toggle="tab" href="#widget" role="tab" aria-controls="widget" aria-selected="true">Widget</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="button-tab" data-toggle="tab" href="#button" role="tab" aria-controls="button" aria-selected="false">Button</a>
+            </li>
+          </ul>
+        </div>
 
-      <label for="employer">Employer PK</label>
-      <input name="employer" />
+        <div class="card-body">
+          <div class="tab-content bg-white" id="tab-content">
+            <div class="tab-pane fade show active" id="widget" role="tabpanel" aria-labelledby="widget-tab">
+              <div class="row">
+                <section class="col-md-6">
+                  <label for="widgetApiKey">API Key</label>
+                  <input class="form-control mb-3" id="widgetApiKey">
+                  <button class="btn btn-primary mt-1" onclick="window.configureWidget()">
+                    Configure Widget
+                  </button>
+                </section>
 
-      <label for="local">Local PK</label>
-      <input name="local" />
+                <div class="col-md-6 widget-test-area text-center bg-light py-2 rounded">
+                  <div data-pledgeup-widget></div>
+                </div>
+              </div>
+            </div>
 
-      <label for="buttonText">Button Text</label>
-      <input name="buttonText" />
+            <div class="tab-pane fade" id="button" role="tabpanel" aria-labelledby="button-tab">
+              <div class="row">
+                <section class="col-md-6">
+                  <label for="buttonApiKey">API Key</label>
+                  <input class="form-control mb-3" id="buttonApiKey">
+                  <div class="row mb-3">
+                    <div class="col-md-4">
+                      <label for="location">State Code</label>
+                      <input class="form-control" id="location">
+                    </div>
+                    <div class="col-md-4">
+                      <label for="employer">Employer PK</label>
+                      <input class="form-control" id="employer">
+                    </div>
+                    <div class="col-md-4">
+                      <label for="local">Local PK</label>
+                      <input class="form-control" id="local">
+                    </div>
+                  </div>
 
-      <button onclick="window.configureButton()">Initialize Button</button>
-      <button onclick="window.configureWidget()">Initialize Widget</button>
-    </section>
+                  <button class="btn btn-primary mt-1" onclick="window.configureButton()">
+                    Configure Button
+                  </button>
+                </section>
 
-    <section class="demo-test">
-      <div data-pledgeup-widget></div>
-    </section>
+                <div class="col-md-6 button-test-area text-center bg-light py-2 rounded"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="my-5 text-muted text-center">Powered By <a href="https://pledgeup.com" target="_blank">PledgeUp</a></footer>
+    </div>
 
     <script src="<%= files.chunks.widgetLoader.entry %>"></script>
 
@@ -84,24 +106,24 @@
         }
         document.querySelector('[data-pledgeup-widget]').innerHTML = '';
       };
-      window.configureButton = function() {
+      window.configureButton = function(evt) {
         resetTest();
         buttonScript = document.createElement('script');
         buttonScript.dataset.width = 110;
         buttonScript.dataset.height = 40;
         buttonScript.dataset.text = 'test button';
-        buttonScript.dataset.key = document.querySelector('input[name="apiKey"]').value;
-        buttonScript.dataset.location = document.querySelector('input[name="location"]').value;
-        buttonScript.dataset.employer = document.querySelector('input[name="employer"]').value;
-        buttonScript.dataset.local = document.querySelector('input[name="local"]').value;
+        buttonScript.dataset.key = document.querySelector('#buttonApiKey').value;
+        buttonScript.dataset.location = document.querySelector('#location').value;
+        buttonScript.dataset.employer = document.querySelector('#employer').value;
+        buttonScript.dataset.local = document.querySelector('#local').value;
         buttonScript.src = "<%= files.chunks.buttonLoader.entry %>";
-        document.querySelector('.demo-test').appendChild(buttonScript);
+        document.querySelector('.button-test-area').appendChild(buttonScript);
       };
 
-      window.configureWidget = function() {
+      window.configureWidget = function(evt) {
         resetTest();
         window.pledgeupWidget({
-          apiKey: document.querySelector('input[name="apiKey"]').value,
+          apiKey: document.querySelector('#widgetApiKey').value,
           version: window.widgetVersion,
         });
       };
