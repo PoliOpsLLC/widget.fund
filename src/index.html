@@ -86,7 +86,7 @@
       <footer class="my-5 text-muted text-center">Powered By <a href="https://pledgeup.com" target="_blank">PledgeUp</a></footer>
     </div>
 
-    <script src="<%= files.chunks.widgetLoader.entry %>"></script>
+    <script src="<%= SCRIPT_DOMAIN %>/<%= files.chunks.widgetLoader.entry %>"></script>
 
     <script>
       <% if (RELEASE_NAME) { %>
@@ -116,7 +116,7 @@
         buttonScript.dataset.location = document.querySelector('#location').value;
         buttonScript.dataset.employer = document.querySelector('#employer').value;
         buttonScript.dataset.local = document.querySelector('#local').value;
-        buttonScript.src = "<%= files.chunks.buttonLoader.entry %>";
+        buttonScript.src = "<%= SCRIPT_DOMAIN %>/<%= files.chunks.buttonLoader.entry %>";
         document.querySelector('.button-test-area').appendChild(buttonScript);
       };
 
