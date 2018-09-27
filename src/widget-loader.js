@@ -12,7 +12,7 @@ window.pledgeupWidget = (options = {}) => {
         const container = document.createElement('iframe');
         container.srcdoc = `
             ${config.customStyle ? `<style>${config.customStyle}</style>` : ''}
-            <script src="widget.${config.version}.js"></script>
+            <script src="${process.env.SCRIPT_DOMAIN}/widget.${config.version}.js"></script>
             <script>window.init(${JSON.stringify(config)})</script>
         `;
         container.width = config.width;

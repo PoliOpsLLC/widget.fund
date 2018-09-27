@@ -23,7 +23,12 @@ module.exports = {
     },
 
     plugins: [
-        new webpack.EnvironmentPlugin(['API_URL', 'BOOTSTRAP_ENDPOINT', 'RELEASE_NAME']),
+        new webpack.EnvironmentPlugin([
+            'API_URL',
+            'BOOTSTRAP_ENDPOINT',
+            'RELEASE_NAME',
+            'SCRIPT_DOMAIN',
+        ]),
         new HTMLWebpackPlugin({
             inject: false,
             template: 'src/index.html',
@@ -31,6 +36,7 @@ module.exports = {
                 files: assets,
                 options,
                 RELEASE_NAME: process.env.RELEASE_NAME,
+                SCRIPT_DOMAIN: process.env.SCRIPT_DOMAIN,
             }),
             title: `${process.env.RELEASE_NAME || 'development'} widget test page`,
         }),

@@ -111,6 +111,7 @@ jobs:
           command: |
             echo 'export PATH=~/.local/bin:$PATH' >> $BASH_ENV
             echo 'export API_URL=$ALPHA_API_URL' >> $BASH_ENV
+            echo 'export SCRIPT_DOMAIN=$ALPHA_SCRIPT_DOMAIN' >> $BASH_ENV
             echo 'export CLOUDFRONT_DIST=$ALPHA_CLOUDFRONT_DIST' >> $BASH_ENV
             echo 'export RELEASE_NAME=$(ENV=alpha npm run --silent release:name)' >> $BASH_ENV
             echo 'export S3_BUCKET=$ALPHA_S3_BUCKET' >> $BASH_ENV
@@ -139,6 +140,7 @@ jobs:
           command: |
             echo 'export PATH=~/.local/bin:$PATH' >> $BASH_ENV
             echo 'export API_URL=$PRODUCTION_API_URL' >> $BASH_ENV
+            echo 'export SCRIPT_DOMAIN=$PRODUCTION_SCRIPT_DOMAIN' >> $BASH_ENV
             echo 'export CLOUDFRONT_DIST=$PRODUCTION_CLOUDFRONT_DIST' >> $BASH_ENV
             echo 'export RELEASE_NAME=$(ENV=production npm run --silent release:name)' >> $BASH_ENV
             echo 'export S3_BUCKET=$PRODUCTION_S3_BUCKET' >> $BASH_ENV
