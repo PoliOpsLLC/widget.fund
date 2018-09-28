@@ -7,7 +7,7 @@ const semver = require('semver');
 
 const baseUrl = 'https://api.github.com/repos/PoliOpsLLC/widget.fund';
 
-const isPreRelease = environ => environ !== 'production';
+const isPreRelease = environ => environ === 'alpha';
 
 const request = async (method, url, token, data) => {
     const options = {
@@ -26,7 +26,6 @@ const getLatestRelease = token => request('GET', '/releases/latest', token).then
 const getReleases = token => request('GET', '/releases', token).then(resp => resp.json());
 
 const nameRelease = async (environ, token, print = true) => {
-    const date = new Date();
     const releases = await getReleases(token);
     const latest = releases[0].name;
     const release = isPreRelease(environ) ?

@@ -44,6 +44,13 @@ workflows:
           filters:
             branches:
               only: master
+      - deploy_demo:
+          requires:
+            - test_js
+            - lint_js
+          filters:
+            branches:
+              only: master
 
 jobs:
   checkout_code:
@@ -151,3 +158,32 @@ jobs:
             source $BASH_ENV
             aws configure set default.s3.signature_version s3v4
             ENV=production REF=$CIRCLE_SHA1 yarn deploy
+  deploy_demo:
+    docker:
+      - *js_image
+    working_directory: ~/widgetfund
+    steps:
+      - *attach
+      - *restore_js
+      - run:
+          name: install aws cli
+          command: |
+            sudo apt-get install -y -qq python-dev build-essential
+            sudo apt-get install -y -qq python-pip
+            pip install awscli --upgrade --user
+      - run:
+          name: update environment for deploy
+          command: |
+            echo 'export PATH=~/.local/bin:$PATH' >> $BASH_ENV
+            echo 'export API_URL=$DEMO_API_URL' >> $BASH_ENV
+            echo 'export SCRIPT_DOMAIN=$DEMO_SCRIPT_DOMAIN' >> $BASH_ENV
+            echo 'export CLOUDFRONT_DIST=$DEMO_CLOUDFRONT_DIST' >> $BASH_ENV
+            echo 'export RELEASE_NAME=$(ENV=demo npm run --silent release:name)' >> $BASH_ENV
+            echo 'export S3_BUCKET=$DEMO_S3_BUCKET' >> $BASH_ENV
+            echo 'export S3_REGION=$DEMO_S3_REGION' >> $BASH_ENV
+      - run:
+          name: deploy demo
+          command: |
+            source $BASH_ENV
+            aws configure set default.s3.signature_version s3v4
+            ENV=demo REF=$CIRCLE_SHA1 yarn deploy
