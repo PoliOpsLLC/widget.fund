@@ -3,7 +3,7 @@ import { bootstrap, packParams } from './shared';
 window.init = config => {
     bootstrap(config.key).then(data => {
         const prefill = Object.keys(config).reduce((filled, key) => {
-            if (['customStyle', 'text'].indexOf(key) && config[key]) filled[key] = config[key];
+            if (['style', 'text'].indexOf(key) && config[key]) filled[key] = config[key];
             return filled;
         }, {});
 
@@ -12,7 +12,7 @@ window.init = config => {
             const destination = `${data.submit_url}?${packParams({ ...prefill, token: data.token })}`;
             window.parent.location.assign(destination);
         };
-        button.style = config.customStyle || '';
+        button.style = config.style || '';
         button.innerHTML = config.text || 'Sign Up';
 
         document.body.appendChild(button);

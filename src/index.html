@@ -70,6 +70,8 @@
                       <input class="form-control" id="local">
                     </div>
                   </div>
+                  <label for="buttonScript">Generated Button Dropzone</label>
+                  <textarea class="form-control mb-3" id="buttonScript"></textarea>
 
                   <button class="btn btn-primary mt-1" onclick="window.configureButton()">
                     Configure Button
@@ -108,6 +110,20 @@
       };
       window.configureButton = function(evt) {
         resetTest();
+        if (document.querySelector('#buttonScript').value) {
+          var div = document.createElement('div');
+          div.innerHTML = document.querySelector('#buttonScript').value.trim();
+          var script = div.firstChild;
+          buttonScript = document.createElement('script');
+          buttonScript.src = script.src;
+          // scripts inserted via innerHTML don't execute when appended, so create a
+          // new one here and copy script attributes over
+          Object.keys(script.dataset).forEach(function(key) {
+            buttonScript.dataset[key] = script.dataset[key];
+          })
+          document.querySelector('.button-test-area').appendChild(buttonScript);
+          return;
+        }
         buttonScript = document.createElement('script');
         buttonScript.dataset.width = 110;
         buttonScript.dataset.height = 40;
