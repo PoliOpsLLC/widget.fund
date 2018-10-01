@@ -6,6 +6,8 @@ module.exports = {
     entry: {
         button: './src/button.js',
         buttonLoader: './src/button-loader.js',
+        iframe: './src/iframe.js',
+        iframeLoader: './src/iframe-loader.js',
         widget: './src/widget.js',
         widgetLoader: './src/widget-loader.js',
     },

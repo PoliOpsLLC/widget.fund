@@ -4,14 +4,15 @@
 
 Embedded integrations with https://pledgeup.com/ to help guide members to sign up.
 
-There are two types of integrations available to choose from:
+There are three types of integrations available to choose from:
 
  * Widget - An embedded set of typeahead fields that narrow down which organization a member belongs in, with a submit button that will redirect them to their next steps based on the entered typeahead information.
  * Button - A preconfigured button set to send a member to a particular formset for sign up based on the information available in the Widget typeaheads.
+ * IFrame - A preconfigured IFrame set to display the destination profile page in the Widget and Button integrations directly inline.
 
 ## Installation
 
-The Widget and Button vary in configuration and installation, but both require an API key to initialize correctly.
+The Widget, Button, and IFrame vary in configuration and installation, but all require an API key to initialize correctly.
 
 ### Widget
 
@@ -45,6 +46,14 @@ Installing the button on your page is as simple as embedding the button loader s
 <script src="https://prod.memberdriver.com/button-loader.js"></script>
 ```
 
+### Button
+
+Much the same as the Button, a single iframe loader script needs to be embedded where the inline member profile should show. PledgeUp hosts an iframe snippet creator where it can be configured and generate the script tag you need to embed, which should look similar to this:
+
+```html
+<script src="https://prod.memberdriver.com/iframe-loader.js"></script>
+```
+
 ## Configuration
 
 ### Widget
@@ -67,6 +76,15 @@ All the following options are optional and included in the button snippet creato
 | --- | --- | --- |
 | customStyle | CSS overrides to default styling on the button | `''` |
 | text | Text to display in the button | `Sign Up` |
+
+### IFrame
+
+All the following options are optional and included in the iframe snippet creator
+
+| Name | Description | Default |
+| --- | --- | --- |
+| height | how tall the iframe should be when loaded | `480px` |
+| width | how wide the iframe should be when loaded | `640px` |
 
 ## License
 

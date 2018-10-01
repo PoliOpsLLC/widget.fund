@@ -7,7 +7,7 @@
 
     <style>
       @media (min-width: 768px) {
-        .button-test-area, .widget-test-area {
+        .button-test-area, .iframe-test-area, .widget-test-area {
           flex: 0 0 calc(50% - 7.5px);
         }
       }
@@ -17,8 +17,8 @@
   <body class="bg-light">
     <div class="container">
       <div class="pt-5 pb-4 text-center">
-        <h2>Widget and Button Test Forms</h2>
-        <p class="px-md-5 mt-4">Preview both the web widget and prefilled buttons with specific API keys and associated parameters. Submitting will redirect to either the white labeled profile or external form page as noted on an Organization's <code>widget_redirect</code> field.</p>
+        <h2>Integration Test Forms</h2>
+        <p class="px-md-5 mt-4">Preview the web widget, prefilled buttons, and prefilled iframes with specific API keys and associated parameters. Submitting will redirect to either the white labeled profile or external form page as noted on an Organization's <code>widget_redirect</code> field.</p>
       </div>
 
       <div class="card">
@@ -29,6 +29,9 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" id="button-tab" data-toggle="tab" href="#button" role="tab" aria-controls="button" aria-selected="false">Button</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="iframe-tab" data-toggle="tab" href="#iframe" role="tab" aria-controls="iframe" aria-selected="false">IFrame</a>
             </li>
           </ul>
         </div>
@@ -58,16 +61,16 @@
                   <input class="form-control mb-3" id="buttonApiKey">
                   <div class="row mb-3">
                     <div class="col-md-4">
-                      <label for="location">State Code</label>
-                      <input class="form-control" id="location">
+                      <label for="buttonLocation">State Code</label>
+                      <input class="form-control" id="buttonLocation">
                     </div>
                     <div class="col-md-4">
-                      <label for="employer">Employer PK</label>
-                      <input class="form-control" id="employer">
+                      <label for="buttonEmployer">Employer PK</label>
+                      <input class="form-control" id="buttonEmployer">
                     </div>
                     <div class="col-md-4">
-                      <label for="local">Local PK</label>
-                      <input class="form-control" id="local">
+                      <label for="buttonLocal">Local PK</label>
+                      <input class="form-control" id="buttonLocal">
                     </div>
                   </div>
                   <label for="buttonScript">Generated Button Dropzone</label>
@@ -81,6 +84,37 @@
                 <div class="col-md-6 button-test-area text-center bg-light py-2 rounded"></div>
               </div>
             </div>
+
+            <div class="tab-pane fade" id="iframe" role="tabpanel" aria-labelledby="iframe-tab">
+              <div class="row">
+                <section class="col-md-6">
+                  <label for="iframeApiKey">API Key</label>
+                  <input class="form-control mb-3" id="iframeApiKey">
+                  <div class="row mb-3">
+                    <div class="col-md-4">
+                      <label for="iframeLocation">State Code</label>
+                      <input class="form-control" id="iframeLocation">
+                    </div>
+                    <div class="col-md-4">
+                      <label for="iframeEmployer">Employer PK</label>
+                      <input class="form-control" id="iframeEmployer">
+                    </div>
+                    <div class="col-md-4">
+                      <label for="iframeLocal">Local PK</label>
+                      <input class="form-control" id="iframeLocal">
+                    </div>
+                  </div>
+                  <label for="iframeScript">Generated IFrame Dropzone</label>
+                  <textarea class="form-control mb-3" id="iframeScript"></textarea>
+
+                  <button class="btn btn-primary mt-1" onclick="window.configureIFrame()">
+                    Configure IFrame
+                  </button>
+                </section>
+
+                <div class="col-md-6 iframe-test-area text-center bg-light py-2 rounded"></div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -92,55 +126,70 @@
 
     <script>
       <% if (RELEASE_NAME) { %>
-        window.buttonVersion = window.widgetVersion = '<%= RELEASE_NAME %>';
+        window.version = '<%= RELEASE_NAME %>';
       <% } else { %>
-        window.buttonVersion = '<%= files.chunks.button.hash %>';
-        window.widgetVersion = '<%= files.chunks.widget.hash %>';
+        window.version = '<%= files.chunks.widget.hash %>';
       <% } %>
     </script>
 
     <script>
-      var buttonScript;
+      var configuredScripts = {};
       var resetTest = function() {
-        if (buttonScript) {
-          buttonScript.nextSibling.remove();
-          buttonScript.remove();
-        }
+        Object.keys(configuredScripts).map(function(key) {
+          if (configuredScripts[key]) {
+            configuredScripts[key].nextSibling.remove();
+            configuredScripts[key].remove();
+          }
+        });
         document.querySelector('[data-pledgeup-widget]').innerHTML = '';
       };
-      window.configureButton = function(evt) {
-        resetTest();
-        if (document.querySelector('#buttonScript').value) {
-          var div = document.createElement('div');
-          div.innerHTML = document.querySelector('#buttonScript').value.trim();
-          var script = div.firstChild;
-          buttonScript = document.createElement('script');
-          buttonScript.src = script.src;
-          // scripts inserted via innerHTML don't execute when appended, so create a
-          // new one here and copy script attributes over
-          Object.keys(script.dataset).forEach(function(key) {
-            buttonScript.dataset[key] = script.dataset[key];
-          })
-          document.querySelector('.button-test-area').appendChild(buttonScript);
-          return;
-        }
-        buttonScript = document.createElement('script');
-        buttonScript.dataset.width = 110;
-        buttonScript.dataset.height = 40;
-        buttonScript.dataset.text = 'test button';
-        buttonScript.dataset.key = document.querySelector('#buttonApiKey').value;
-        buttonScript.dataset.location = document.querySelector('#location').value;
-        buttonScript.dataset.employer = document.querySelector('#employer').value;
-        buttonScript.dataset.local = document.querySelector('#local').value;
-        buttonScript.src = "<%= SCRIPT_DOMAIN %>/<%= files.chunks.buttonLoader.entry %>";
-        document.querySelector('.button-test-area').appendChild(buttonScript);
-      };
+
+      var configureScriptEmbed = function(type, src) {
+        return function(evt) {
+          resetTest();
+          if (document.querySelector('#' + type + 'Script').value) {
+            var div = document.createElement('div');
+            div.innerHTML = document.querySelector('#' + type + 'Script').value.trim();
+            var script = div.firstChild;
+            configuredScripts[type] = document.createElement('script');
+            configuredScripts[type].src = script.src;
+            // scripts inserted via innerHTML don't execute when appended, so create a
+            // new one here and copy script attributes over
+            Object.keys(script.dataset).forEach(function(key) {
+              configuredScripts[type].dataset[key] = script.dataset[key];
+            })
+            document.querySelector('.' + type + '-test-area').appendChild(configuredScripts[type]);
+            return;
+          }
+          configuredScripts[type] = document.createElement('script');
+
+          configuredScripts[type].dataset.width = type === 'button' ? 110 : 400;
+          configuredScripts[type].dataset.height = type === 'button' ? 40 : 560;
+
+          configuredScripts[type].dataset.key = document.querySelector('#' + type + 'ApiKey').value;
+          configuredScripts[type].dataset.location = document.querySelector('#' + type + 'Location').value;
+          configuredScripts[type].dataset.employer = document.querySelector('#' + type + 'Employer').value;
+          configuredScripts[type].dataset.local = document.querySelector('#' + type + 'Local').value;
+          configuredScripts[type].src = src;
+          document.querySelector('.' + type + '-test-area').appendChild(configuredScripts[type]);
+        };
+      }
+
+      window.configureButton = configureScriptEmbed(
+        'button',
+        '<%= SCRIPT_DOMAIN %>/<%= files.chunks.buttonLoader.entry %>',
+      );
+
+      window.configureIFrame = configureScriptEmbed(
+        'iframe',
+        '<%= SCRIPT_DOMAIN %>/<%= files.chunks.iframeLoader.entry %>',
+      );
 
       window.configureWidget = function(evt) {
         resetTest();
         window.pledgeupWidget({
           apiKey: document.querySelector('#widgetApiKey').value,
-          version: window.widgetVersion,
+          version: window.version,
         });
       };
     </script>
