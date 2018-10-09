@@ -15,6 +15,7 @@ window.init = config => {
         button.style = config.style || '';
         button.innerHTML = config.text || 'Sign Up';
 
+        document.body.style.margin = 0;
         document.body.appendChild(button);
     });
 };
