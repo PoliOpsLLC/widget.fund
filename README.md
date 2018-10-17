@@ -21,7 +21,7 @@ Installing the widget is divided into three main parts:
  1. Add the widget loader script to your page:
 
 ```html
-<script src="https://prod.memberdriver.com/widget-loader.js"></script>
+<script src="https://prod.memberdriver.com/widgetLoader.js"></script>
 ```
 
  2. Ensure the element you want the widget to load into on your page has the special attribute the widget can find. This attribute can be overridden as described in the configuration section:
@@ -43,7 +43,7 @@ window.pledgeupWidget({ apiKey: 'API_KEY' });
 Installing the button on your page is as simple as embedding the button loader script. The button will load wherever the script is placed, so ensure it's positioned in the layout appropriately. PledgeUp hosts a button snippet creator where it can be configured and generate the script tag you need to embed, which should look similar to this:
 
 ```html
-<script src="https://prod.memberdriver.com/button-loader.js"></script>
+<script src="https://prod.memberdriver.com/buttonLoader.js"></script>
 ```
 
 ### Button
@@ -51,7 +51,7 @@ Installing the button on your page is as simple as embedding the button loader s
 Much the same as the Button, a single iframe loader script needs to be embedded where the inline member profile should show. PledgeUp hosts an iframe snippet creator where it can be configured and generate the script tag you need to embed, which should look similar to this:
 
 ```html
-<script src="https://prod.memberdriver.com/iframe-loader.js"></script>
+<script src="https://prod.memberdriver.com/iframeLoader.js"></script>
 ```
 
 ## Configuration
@@ -74,6 +74,9 @@ All the following options are optional and included in the button snippet creato
 
 | Name | Description | Default |
 | --- | --- | --- |
+| location | US state to prefill on profile | `''` |
+| employer | Employer name to prefill on profile | `''` |
+| local | Local name to prefill on profile | `''` |
 | customStyle | CSS overrides to default styling on the button | `''` |
 | text | Text to display in the button | `Sign Up` |
 
@@ -83,6 +86,9 @@ All the following options are optional and included in the iframe snippet creato
 
 | Name | Description | Default |
 | --- | --- | --- |
+| location | US state to prefill on profile | `''` |
+| employer | Employer name to prefill on profile | `''` |
+| local | Local name to prefill on profile | `''` |
 | height | how tall the iframe should be when loaded | `480px` |
 | width | how wide the iframe should be when loaded | `640px` |
 
