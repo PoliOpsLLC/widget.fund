@@ -28,6 +28,7 @@ module.exports = {
         new webpack.EnvironmentPlugin([
             'API_URL',
             'BOOTSTRAP_ENDPOINT',
+            'CREDENTIALS',
             'RELEASE_NAME',
             'SCRIPT_DOMAIN',
         ]),

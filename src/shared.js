@@ -11,9 +11,17 @@ export const bootstrap = (key, errorMessage = 'something went wrong') => {
     const options = {
         method: 'POST',
         credentials: 'include',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+        },
         body: packParams({ key }),
     };
+
+    if (process.env.CREDENTIALS) {
+        options.headers.Authorization = `Basic ${btoa(process.env.CREDENTIALS)}`;
+    }
+
+    console.log(options);
 
     return fetch(`${process.env.API_URL}${process.env.BOOTSTRAP_ENDPOINT}`, options)
         .then(resp => {
