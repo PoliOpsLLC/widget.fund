@@ -22,7 +22,7 @@
   "contributors": [
     "Derek Hurley"
   ],
-  "license": "UNLICENSED",
+  "license": "MIT",
   "dependencies": {
     "awesomplete": "1.1.2",
     "preact": "8.3.1",

@@ -46,7 +46,7 @@ Installing the button on your page is as simple as embedding the button loader s
 <script src="https://prod.memberdriver.com/buttonLoader.js"></script>
 ```
 
-### Button
+### IFrame
 
 Much the same as the Button, a single iframe loader script needs to be embedded where the inline member profile should show. PledgeUp hosts an iframe snippet creator where it can be configured and generate the script tag you need to embed, which should look similar to this:
 
@@ -94,4 +94,4 @@ All the following options are optional and included in the iframe snippet creato
 
 ## License
 
-[![License: Unlicense](https://img.shields.io/badge/license-Unlicense-blue.svg)](http://unlicense.org/)
+[![GitHub](https://img.shields.io/github/license/mashape/apistatus.svg)](https://mit-license.org/)
