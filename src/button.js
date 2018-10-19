@@ -12,8 +12,8 @@ window.init = config => {
             const destination = `${data.submit_url}?${packParams({ ...prefill, token: data.token })}`;
             window.parent.location.assign(destination);
         };
-        button.style = config.style || '';
-        button.innerHTML = config.text || 'Sign Up';
+        button.style = config.style;
+        button.innerHTML = config.text;
 
         document.body.style.margin = 0;
         document.body.appendChild(button);

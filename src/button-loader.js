@@ -1,6 +1,6 @@
-(function() {
+(function(window, document) {
     const container = document.createElement('iframe');
-    const { key, location, employer, local, org, style, text } = document.currentScript.dataset;
+    const { key, location, employer, local, org, style = '', text = 'Sign Up' } = document.currentScript.dataset;
     container.srcdoc = `
         <script src="${process.env.SCRIPT_DOMAIN}/button.${process.env.RELEASE_NAME || window.version}.js"></script>
         <script>window.init(${JSON.stringify({ key, location, employer, local, org, text, style })})</script>
@@ -9,4 +9,4 @@
     container.height = document.currentScript.dataset.height;
     container.style.border = 0;
     document.currentScript.insertAdjacentElement('afterend', container);
-})();
+})(window, document);

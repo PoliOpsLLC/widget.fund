@@ -1,4 +1,4 @@
-(function() {
+(function(window, document) {
     const container = document.createElement('iframe');
     const { key, location, employer, local, org, height, width } = document.currentScript.dataset;
     container.srcdoc = `
@@ -9,4 +9,4 @@
     container.height = height || 640;
     container.style.border = 0;
     document.currentScript.insertAdjacentElement('afterend', container);
-})();
+})(window, document);

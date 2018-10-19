@@ -57,24 +57,8 @@
             <div class="tab-pane fade" id="button" role="tabpanel" aria-labelledby="button-tab">
               <div class="row">
                 <section class="col-md-6">
-                  <label for="buttonApiKey">API Key</label>
-                  <input class="form-control mb-3" id="buttonApiKey">
-                  <div class="row mb-3">
-                    <div class="col-md-4">
-                      <label for="buttonLocation">State Code</label>
-                      <input class="form-control" id="buttonLocation">
-                    </div>
-                    <div class="col-md-4">
-                      <label for="buttonEmployer">Employer PK</label>
-                      <input class="form-control" id="buttonEmployer">
-                    </div>
-                    <div class="col-md-4">
-                      <label for="buttonLocal">Local PK</label>
-                      <input class="form-control" id="buttonLocal">
-                    </div>
-                  </div>
                   <label for="buttonScript">Generated Button Dropzone</label>
-                  <textarea class="form-control mb-3" id="buttonScript"></textarea>
+                  <textarea class="form-control mb-3" id="buttonScript" rows="5"></textarea>
 
                   <button class="btn btn-primary mt-1" onclick="window.configureButton()">
                     Configure Button
@@ -88,24 +72,8 @@
             <div class="tab-pane fade" id="iframe" role="tabpanel" aria-labelledby="iframe-tab">
               <div class="row">
                 <section class="col-md-6">
-                  <label for="iframeApiKey">API Key</label>
-                  <input class="form-control mb-3" id="iframeApiKey">
-                  <div class="row mb-3">
-                    <div class="col-md-4">
-                      <label for="iframeLocation">State Code</label>
-                      <input class="form-control" id="iframeLocation">
-                    </div>
-                    <div class="col-md-4">
-                      <label for="iframeEmployer">Employer PK</label>
-                      <input class="form-control" id="iframeEmployer">
-                    </div>
-                    <div class="col-md-4">
-                      <label for="iframeLocal">Local PK</label>
-                      <input class="form-control" id="iframeLocal">
-                    </div>
-                  </div>
                   <label for="iframeScript">Generated IFrame Dropzone</label>
-                  <textarea class="form-control mb-3" id="iframeScript"></textarea>
+                  <textarea class="form-control mb-3" id="iframeScript" rows="5"></textarea>
 
                   <button class="btn btn-primary mt-1" onclick="window.configureIFrame()">
                     Configure IFrame
@@ -147,30 +115,16 @@
       var configureScriptEmbed = function(type, src) {
         return function(evt) {
           resetTest();
-          if (document.querySelector('#' + type + 'Script').value) {
-            var div = document.createElement('div');
-            div.innerHTML = document.querySelector('#' + type + 'Script').value.trim();
-            var script = div.firstChild;
-            configuredScripts[type] = document.createElement('script');
-            configuredScripts[type].src = script.src;
-            // scripts inserted via innerHTML don't execute when appended, so create a
-            // new one here and copy script attributes over
-            Object.keys(script.dataset).forEach(function(key) {
-              configuredScripts[type].dataset[key] = script.dataset[key];
-            })
-            document.querySelector('.' + type + '-test-area').appendChild(configuredScripts[type]);
-            return;
-          }
+          var div = document.createElement('div');
+          div.innerHTML = document.querySelector('#' + type + 'Script').value.trim();
+          var script = div.firstChild;
           configuredScripts[type] = document.createElement('script');
-
-          configuredScripts[type].dataset.width = type === 'button' ? 110 : 400;
-          configuredScripts[type].dataset.height = type === 'button' ? 40 : 560;
-
-          configuredScripts[type].dataset.key = document.querySelector('#' + type + 'ApiKey').value;
-          configuredScripts[type].dataset.location = document.querySelector('#' + type + 'Location').value;
-          configuredScripts[type].dataset.employer = document.querySelector('#' + type + 'Employer').value;
-          configuredScripts[type].dataset.local = document.querySelector('#' + type + 'Local').value;
-          configuredScripts[type].src = src;
+          configuredScripts[type].src = script.src;
+          // scripts inserted via innerHTML don't execute when appended, so create a
+          // new one here and copy script attributes over
+          Object.keys(script.dataset).forEach(function(key) {
+            configuredScripts[type].dataset[key] = script.dataset[key];
+          })
           document.querySelector('.' + type + '-test-area').appendChild(configuredScripts[type]);
         };
       }
