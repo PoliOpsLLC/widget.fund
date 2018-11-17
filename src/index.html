@@ -112,19 +112,23 @@
         document.querySelector('[data-pledgeup-widget]').innerHTML = '';
       };
 
-      var configureScriptEmbed = function(type, src) {
+      var configureScriptEmbed = function(type, src, version) {
         return function(evt) {
           resetTest();
           var div = document.createElement('div');
           div.innerHTML = document.querySelector('#' + type + 'Script').value.trim();
           var script = div.firstChild;
-          configuredScripts[type] = document.createElement('script');
-          configuredScripts[type].src = script.src;
           // scripts inserted via innerHTML don't execute when appended, so create a
           // new one here and copy script attributes over
+          configuredScripts[type] = document.createElement('script');
+          configuredScripts[type].src = script.src || src;
           Object.keys(script.dataset).forEach(function(key) {
             configuredScripts[type].dataset[key] = script.dataset[key];
           })
+          <% if (!RELEASE_NAME) { %>
+            // reset window.version from widget to either button or iframe for use in loaders
+            window.version = version;
+          <% } %>
           document.querySelector('.' + type + '-test-area').appendChild(configuredScripts[type]);
         };
       }
@@ -132,11 +136,13 @@
       window.configureButton = configureScriptEmbed(
         'button',
         '<%= SCRIPT_DOMAIN %>/<%= files.chunks.buttonLoader.entry %>',
+        '<%= files.chunks.button.hash %>',
       );
 
       window.configureIFrame = configureScriptEmbed(
         'iframe',
         '<%= SCRIPT_DOMAIN %>/<%= files.chunks.iframeLoader.entry %>',
+        '<%= files.chunks.iframe.hash %>',
       );
 
       window.configureWidget = function(evt) {
