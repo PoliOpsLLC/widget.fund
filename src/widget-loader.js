@@ -5,6 +5,15 @@ window.pledgeupWidget = (options = {}) => {
         customStyle: '',
         height: '470px',
         width: '300px',
+        introMessage: 'Each one of the fields below help narrow down which organization the member belongs to.',
+        summaryMessage: 'Submitting will take what has been entered and redirect the member to the matched organization forms to complete their sign up process.',
+        locationLabel: 'State of Employment',
+        employerLabel: 'Employer',
+        localLabel: 'Affiliate/Local',
+        showLocation: true,
+        showEmployer: true,
+        showLocal: true,
+        submitLabel: 'Submit',
         ...options,
     };
 

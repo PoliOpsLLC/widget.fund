@@ -68,6 +68,16 @@ There are many options available to further configure the widget. All optional s
 | height | how tall the widget should be when loaded | `470px` |
 | width | how wide the widget should be when loaded | `300px` |
 
+| introMessage | Text to be displayed prior to the typeahead fields | `''` |
+| summaryMessage | Text to be displayed after the typeahead fields before the submit button | `''` |
+| locationLabel | Field label for the location field | `'State of Employment'` |
+| employerLabel | Field label for the employer field | `'Employer'` |
+| localLabel | Field label for the local field | `'Affiliate/Local'` |
+| showLocation | Whether to show or hide the location field | `true` |
+| showEmployer | Whether to show or hide the employer field | `true` |
+| showLocal | Whether to show or hide the local field | `true` |
+| submitLabel | Submit button text | `'Submit'` |
+
 ### Button
 
 All the following options are optional and included in the button snippet creator

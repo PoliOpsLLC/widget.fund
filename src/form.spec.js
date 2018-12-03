@@ -16,6 +16,15 @@ describe('Form', () => {
             submit_url: 'http://localhost/submit',
             apiKey: 'API_KEY',
             token: 'TOKEN',
+            introMessage: 'Preamble',
+            summaryMessage: 'Closing remarks',
+            locationLabel: 'Custom State',
+            employerLabel: 'Custom Employer',
+            localLabel: 'Custom Local',
+            showLocation: true,
+            showEmployer: true,
+            showLocal: true,
+            submitLabel: 'Custom Submit',
             ...overrides,
         };
         render(<Form ref={c => result = c} {...props} />, scratch);
@@ -71,6 +80,16 @@ describe('Form', () => {
 
     it('loads all options on render', async done => {
         await mount();
+        // wait for setState and its callback to finish at end of promise
+        process.nextTick(() => {
+            expect(result.base).toMatchSnapshot();
+            expect(result.state).toMatchSnapshot();
+            done();
+        });
+    });
+
+    it('can hide some fields', async done => {
+        await mount({ showEmployer: false, showLocal: false });
         // wait for setState and its callback to finish at end of promise
         process.nextTick(() => {
             expect(result.base).toMatchSnapshot();

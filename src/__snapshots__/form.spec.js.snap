@@ -1,5 +1,75 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Form can hide some fields 1`] = `
+<div
+  class="content"
+>
+  <p>
+    Preamble
+  </p>
+  <form>
+    <div
+      class="typeahead"
+    >
+      <label
+        for="location-1537832579326"
+      >
+        Custom State
+      </label>
+      <div
+        class="awesomplete"
+      >
+        <input
+          aria-autocomplete="list"
+          autocomplete="off"
+          name="location-1537832579326"
+        />
+        <ul
+          hidden=""
+        />
+        <span
+          aria-live="assertive"
+          aria-relevant="additions"
+          class="visually-hidden"
+          role="status"
+        />
+      </div>
+    </div>
+    
+    <p>
+      Closing remarks
+    </p>
+    <button
+      type="submit"
+    >
+      Custom Submit
+    </button>
+  </form>
+</div>
+`;
+
+exports[`Form can hide some fields 2`] = `
+Object {
+  "employer": "",
+  "employerOptions": Array [],
+  "local": "",
+  "localOptions": Array [],
+  "location": "",
+  "locationOptions": Array [
+    Object {
+      "display_name": "Iowa",
+      "label": "Iowa",
+      "value": "IA",
+    },
+    Object {
+      "display_name": "Louisiana",
+      "label": "Louisiana",
+      "value": "LA",
+    },
+  ],
+}
+`;
+
 exports[`Form constrains employers based on state/local 1`] = `
 <ul>
   <li
@@ -104,11 +174,8 @@ exports[`Form loads all options on render 1`] = `
 <div
   class="content"
 >
-  <h3>
-    This is the widget form
-  </h3>
   <p>
-    Each one of the fields below help narrow down which organization the member belongs to.
+    Preamble
   </p>
   <form>
     <div
@@ -117,7 +184,7 @@ exports[`Form loads all options on render 1`] = `
       <label
         for="location-1537832579326"
       >
-        State of Employment
+        Custom State
       </label>
       <div
         class="awesomplete"
@@ -144,7 +211,7 @@ exports[`Form loads all options on render 1`] = `
       <label
         for="employer-1537832579326"
       >
-        Employer
+        Custom Employer
       </label>
       <div
         class="awesomplete"
@@ -171,7 +238,7 @@ exports[`Form loads all options on render 1`] = `
       <label
         for="local-1537832579326"
       >
-        Affiliate/Local
+        Custom Local
       </label>
       <div
         class="awesomplete"
@@ -193,12 +260,12 @@ exports[`Form loads all options on render 1`] = `
       </div>
     </div>
     <p>
-      Submitting will take what has been entered and redirect the member to the matched organization's forms to complete their sign up process.
+      Closing remarks
     </p>
     <button
       type="submit"
     >
-      Submit
+      Custom Submit
     </button>
   </form>
 </div>

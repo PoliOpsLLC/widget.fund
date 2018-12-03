@@ -20,8 +20,11 @@ export default class Form extends Component {
         };
     }
 
-    loadOptions = (url, name, label, value) => {
+    loadOptions = (url, name, label, value, enabled) => {
         const params = { 'key': this.props.apiKey, 'token': this.props.token };
+        if (!enabled) {
+            return Promise.resolve();
+        }
         return fetch(`${url}?${packParams(params)}`, { credentials: 'include' })
             .then(resp => resp.json())
             .then(data => {
@@ -37,9 +40,9 @@ export default class Form extends Component {
 
     componentDidMount() {
         return Promise.all([
-            this.loadOptions(this.props.location_url, 'location', 'display_name', 'value'),
-            this.loadOptions(this.props.employer_url, 'employer', 'name', 'pk'),
-            this.loadOptions(this.props.local_url, 'local', 'name', 'pk'),
+            this.loadOptions(this.props.location_url, 'location', 'display_name', 'value', this.props.showLocation),
+            this.loadOptions(this.props.employer_url, 'employer', 'name', 'pk', this.props.showEmployer),
+            this.loadOptions(this.props.local_url, 'local', 'name', 'pk', this.props.showLocal),
         ]);
     }
 
@@ -74,9 +77,9 @@ export default class Form extends Component {
     }
 
     constrainOptions() {
-        this._location.updateList(this.state.locationOptions);
-        this.constrainEmployers();
-        this.constrainLocals();
+        this.props.showLocation && this._location.updateList(this.state.locationOptions);
+        this.props.showEmployer && this.constrainEmployers();
+        this.props.showLocal && this.constrainLocals();
     }
 
     handleOpen = field => () => {
@@ -99,35 +102,37 @@ export default class Form extends Component {
     render() {
         return (
             <div class="content">
-                <h3>This is the widget form</h3>
-                <p>Each one of the fields below help narrow down which organization the member belongs to.</p>
+                <p>{this.props.introMessage}</p>
                 <form onSubmit={this.handleSubmit}>
-                    <Typeahead
-                        ref={el => (this._location = el)}
-                        name="location"
-                        label="State of Employment"
-                        options={this.state.locationOptions}
-                        onOpen={this.handleOpen('location')}
-                        onChange={this.handleChange('location')} />
+                    { this.props.showLocation &&
+                        <Typeahead
+                            ref={el => (this._location = el)}
+                            name="location"
+                            label={this.props.locationLabel}
+                            options={this.state.locationOptions}
+                            onOpen={this.handleOpen('location')}
+                            onChange={this.handleChange('location')} /> }
 
-                    <Typeahead
-                        ref={el => (this._employer = el)}
-                        name="employer"
-                        label="Employer"
-                        options={this.state.employerOptions}
-                        onOpen={this.handleOpen('employer')}
-                        onChange={this.handleChange('employer')} />
+                    { this.props.showEmployer &&
+                        <Typeahead
+                            ref={el => (this._employer = el)}
+                            name="employer"
+                            label={this.props.employerLabel}
+                            options={this.state.employerOptions}
+                            onOpen={this.handleOpen('employer')}
+                            onChange={this.handleChange('employer')} /> }
 
-                    <Typeahead
-                        ref={el => (this._local = el)}
-                        name="local"
-                        label="Affiliate/Local"
-                        options={this.state.localOptions}
-                        onOpen={this.handleOpen('local')}
-                        onChange={this.handleChange('local')} />
+                    { this.props.showLocal &&
+                        <Typeahead
+                            ref={el => (this._local = el)}
+                            name="local"
+                            label={this.props.localLabel}
+                            options={this.state.localOptions}
+                            onOpen={this.handleOpen('local')}
+                            onChange={this.handleChange('local')} /> }
 
-                    <p>Submitting will take what has been entered and redirect the member to the matched organization's forms to complete their sign up process.</p>
-                    <button type="submit">Submit</button>
+                    <p>{this.props.summaryMessage}</p>
+                    <button type="submit">{this.props.submitLabel}</button>
                 </form>
             </div>
         );
