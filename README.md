@@ -67,7 +67,6 @@ There are many options available to further configure the widget. All optional s
 | customStyle | CSS overrides to default styling within the widget | `''` |
 | height | how tall the widget should be when loaded | `470px` |
 | width | how wide the widget should be when loaded | `300px` |
-
 | introMessage | Text to be displayed prior to the typeahead fields | `''` |
 | summaryMessage | Text to be displayed after the typeahead fields before the submit button | `''` |
 | locationLabel | Field label for the location field | `'State of Employment'` |
