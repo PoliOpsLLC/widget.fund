@@ -11,7 +11,7 @@
     "release:create": "node scripts/github.js create-release --ref $REF --environ $ENV --token $GITHUB_API_TOKEN",
     "release:name": "node scripts/github.js name-release --environ $ENV --token $GITHUB_API_TOKEN",
     "deploy:s3": "aws --region $S3_REGION s3 sync dist $S3_BUCKET",
-    "deploy:cloudfront": "aws configure set preview.cloudfront true && aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_DIST --paths /index.html",
+    "deploy:cloudfront": "aws configure set preview.cloudfront true && aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_DIST --paths /index.html '/*Loader.js'",
     "deploy": "yarn build && yarn deploy:s3 && yarn deploy:cloudfront && yarn release:create",
     "visualize": "mkdir -p dist && webpack --mode production --profile --json > dist/webpack-stats.json && webpack-bundle-analyzer dist/webpack-stats.json"
   },
