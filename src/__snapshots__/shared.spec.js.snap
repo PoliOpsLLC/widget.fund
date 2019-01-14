@@ -2,7 +2,7 @@
 
 exports[`Shared bootstrap handles network errors 1`] = `
 <span>
-  something went wrong
+  oops!
 </span>
 `;
 

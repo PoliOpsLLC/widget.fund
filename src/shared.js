@@ -1,6 +1,6 @@
 import fetch from 'unfetch';
 
-export const bootstrap = (key, errorMessage = 'something went wrong') => {
+export const bootstrap = (key, errorMessage = 'oops!') => {
     const handleError = err => {
         const error = document.createElement('span');
         error.innerHTML = errorMessage;
@@ -23,12 +23,22 @@ export const bootstrap = (key, errorMessage = 'something went wrong') => {
         .catch(handleError);
 };
 
+export const debounce = (fn, delay) => {
+    let timeoutID = null;
+    return (...args) => {
+        clearTimeout(timeoutID);
+        const that = this;
+        timeoutID = setTimeout(() => fn.apply(that, args), delay);
+    };
+};
+
 export const flushPromises = () => new Promise(resolve => setImmediate(resolve));
 
 export const packParams = params => {
-    return Object.keys(params).map(key => {
-        return `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`;
-    }).join('&');
+    return Object.keys(params).reduce((qs, key) => {
+        // strips param if value is undefined, null, '', or 0
+        return !params[key] ? qs : qs.concat(`${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`);
+    }, []).join('&');
 };
 
 export const simulateOn = (target, name, props = {}) => {

@@ -4,7 +4,7 @@ import { h, Component } from 'preact';
 
 import fetch from 'unfetch';
 
-import { packParams } from './shared';
+import { debounce, packParams } from './shared';
 import Typeahead from './typeahead';
 
 export default class Form extends Component {
@@ -20,11 +20,11 @@ export default class Form extends Component {
         };
     }
 
-    loadOptions = (url, name, label, value, enabled) => {
-        const params = { 'key': this.props.apiKey, 'token': this.props.token };
-        if (!enabled) {
-            return Promise.resolve();
-        }
+    getAccessParams() {
+        return { key: this.props.apiKey, token: this.props.token };
+    }
+
+    fetchOptions = (url, params, name, label, value) => {
         return fetch(`${url}?${packParams(params)}`, { credentials: 'include' })
             .then(resp => resp.json())
             .then(data => {
@@ -38,12 +38,29 @@ export default class Form extends Component {
             });
     }
 
+    loadLocations() {
+        const params = this.getAccessParams();
+        return this.props.showLocation ?
+            this.fetchOptions(this.props.location_url, params, 'location', 'display_name', 'value') :
+            Promise.resolve();
+    }
+
+    loadEmployers(name) {
+        const params = { ...this.getAccessParams(), name };
+        return this.props.showEmployer ?
+            this.fetchOptions(this.props.employer_url, params, 'employer', 'name', 'pk') :
+            Promise.resolve();
+    }
+
+    loadLocals(name) {
+        const params = { ...this.getAccessParams(), name };
+        return this.props.showLocal ?
+            this.fetchOptions(this.props.local_url, params, 'local', 'name', 'pk') :
+            Promise.resolve();
+    }
+
     componentDidMount() {
-        return Promise.all([
-            this.loadOptions(this.props.location_url, 'location', 'display_name', 'value', this.props.showLocation),
-            this.loadOptions(this.props.employer_url, 'employer', 'name', 'pk', this.props.showEmployer),
-            this.loadOptions(this.props.local_url, 'local', 'name', 'pk', this.props.showLocal),
-        ]);
+        return Promise.all([this.loadLocations(), this.loadEmployers(), this.loadLocals()]);
     }
 
     constrainEmployers() {
@@ -82,11 +99,15 @@ export default class Form extends Component {
         this.props.showLocal && this.constrainLocals();
     }
 
+    handleInput = loader => {
+        return debounce(loader.bind(this), 400);
+    };
+
     handleOpen = field => () => {
         return this.constrainOptions();
     }
 
-    handleChange = field => value => {
+    handleSelect = field => value => {
         return this.setState({ [field]: value }, this.constrainOptions);
     }
 
@@ -111,7 +132,7 @@ export default class Form extends Component {
                             label={this.props.locationLabel}
                             options={this.state.locationOptions}
                             onOpen={this.handleOpen('location')}
-                            onChange={this.handleChange('location')} /> }
+                            onSelect={this.handleSelect('location')} /> }
 
                     { this.props.showEmployer &&
                         <Typeahead
@@ -119,8 +140,9 @@ export default class Form extends Component {
                             name="employer"
                             label={this.props.employerLabel}
                             options={this.state.employerOptions}
+                            onInput={this.handleInput(this.loadEmployers)}
                             onOpen={this.handleOpen('employer')}
-                            onChange={this.handleChange('employer')} /> }
+                            onSelect={this.handleSelect('employer')} /> }
 
                     { this.props.showLocal &&
                         <Typeahead
@@ -128,8 +150,9 @@ export default class Form extends Component {
                             name="local"
                             label={this.props.localLabel}
                             options={this.state.localOptions}
+                            onInput={this.handleInput(this.loadLocals)}
                             onOpen={this.handleOpen('local')}
-                            onChange={this.handleChange('local')} /> }
+                            onSelect={this.handleSelect('local')} /> }
 
                     <p>{this.props.summaryMessage}</p>
                     <button type="submit">{this.props.submitLabel}</button>

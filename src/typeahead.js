@@ -25,11 +25,17 @@ export default class Typeahead extends Component {
                 return evt.target.value === option.label;
             });
             if (valid) {
-                this.props.onChange(valid.value);
+                this.props.onSelect(valid.value);
                 this._awesomplete.close();
             }
             return false;
         });
+
+        if (this.props.onInput) {
+            this._input.addEventListener('input', evt => {
+                return this.props.onInput(evt.target.value);
+            });
+        }
     }
 
     componentWillUnmount() {
@@ -38,6 +44,7 @@ export default class Typeahead extends Component {
 
     updateList = newList => {
         this._awesomplete._list = newList;
+        this._awesomplete.isOpened && this._awesomplete.evaluate();
     }
 
     render() {
