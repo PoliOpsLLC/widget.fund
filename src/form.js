@@ -18,6 +18,9 @@ export default class Form extends Component {
             localOptions: [],
             locationOptions: [],
         };
+
+        this.debouncedLoadEmployers = debounce(this.loadEmployers, 400);
+        this.debouncedLoadLocals = debounce(this.loadLocals, 400);
     }
 
     getAccessParams() {
@@ -38,21 +41,21 @@ export default class Form extends Component {
             });
     }
 
-    loadLocations() {
+    loadLocations = () => {
         const params = this.getAccessParams();
         return this.props.showLocation ?
             this.fetchOptions(this.props.location_url, params, 'location', 'display_name', 'value') :
             Promise.resolve();
     }
 
-    loadEmployers(name) {
+    loadEmployers = name => {
         const params = { ...this.getAccessParams(), name };
         return this.props.showEmployer ?
             this.fetchOptions(this.props.employer_url, params, 'employer', 'name', 'pk') :
             Promise.resolve();
     }
 
-    loadLocals(name) {
+    loadLocals = name => {
         const params = { ...this.getAccessParams(), name };
         return this.props.showLocal ?
             this.fetchOptions(this.props.local_url, params, 'local', 'name', 'pk') :
@@ -99,9 +102,17 @@ export default class Form extends Component {
         this.props.showLocal && this.constrainLocals();
     }
 
-    handleInput = loader => {
-        return debounce(loader.bind(this), 400);
-    };
+    handleEmployerInput = name => {
+        const match = this.state.employerOptions.find(e => e.name === name);
+        this.setState({ employer: match ? match.pk : '' });
+        return this.debouncedLoadEmployers(name);
+    }
+
+    handleLocalInput = name => {
+        const match = this.state.localOptions.find(l => l.name === name);
+        this.setState({ local: match ? match.pk : '' });
+        return this.debouncedLoadLocals(name);
+    }
 
     handleOpen = field => () => {
         return this.constrainOptions();
@@ -140,7 +151,7 @@ export default class Form extends Component {
                             name="employer"
                             label={this.props.employerLabel}
                             options={this.state.employerOptions}
-                            onInput={this.handleInput(this.loadEmployers)}
+                            onInput={this.handleEmployerInput}
                             onOpen={this.handleOpen('employer')}
                             onSelect={this.handleSelect('employer')} /> }
 
@@ -150,7 +161,7 @@ export default class Form extends Component {
                             name="local"
                             label={this.props.localLabel}
                             options={this.state.localOptions}
-                            onInput={this.handleInput(this.loadLocals)}
+                            onInput={this.handleLocalInput}
                             onOpen={this.handleOpen('local')}
                             onSelect={this.handleSelect('local')} /> }
 
