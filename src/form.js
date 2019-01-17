@@ -70,7 +70,7 @@ export default class Form extends Component {
                 valid = option.address.state === this.state.location;
             }
             const local = this.state.localOptions.find(l => l.value === this.state.local);
-            if (local) {
+            if (local && local.employers.length) {
                 valid = local.employers.indexOf(option.value) > -1;
             }
             return valid;
@@ -85,7 +85,7 @@ export default class Form extends Component {
                 valid = option.address.state === this.state.location;
             }
             const employer = this.state.employerOptions.find(e => e.value === this.state.employer);
-            if (employer) {
+            if (employer && employer.locals.length) {
                 valid = employer.locals.indexOf(option.value) > -1;
             }
             return valid;
