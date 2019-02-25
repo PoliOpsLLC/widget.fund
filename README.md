@@ -4,15 +4,14 @@
 
 Embedded integrations with https://pledgeup.com/ to help guide members to sign up.
 
-There are three types of integrations available to choose from:
+There are two types of integrations available to choose from:
 
  * Widget - An embedded set of typeahead fields that narrow down which organization a member belongs in, with a submit button that will redirect them to their next steps based on the entered typeahead information.
  * Button - A preconfigured button set to send a member to a particular formset for sign up based on the information available in the Widget typeaheads.
- * IFrame - A preconfigured IFrame set to display the destination profile page in the Widget and Button integrations directly inline.
 
 ## Installation
 
-The Widget, Button, and IFrame vary in configuration and installation, but all require an API key to initialize correctly.
+The Widget and Button vary in configuration and installation, but all require an API key to initialize correctly.
 
 ### Widget
 
@@ -44,14 +43,6 @@ Installing the button on your page is as simple as embedding the button loader s
 
 ```html
 <script src="https://prod.memberdriver.com/buttonLoader.js"></script>
-```
-
-### IFrame
-
-Much the same as the Button, a single iframe loader script needs to be embedded where the inline member profile should show. PledgeUp hosts an iframe snippet creator where it can be configured and generate the script tag you need to embed, which should look similar to this:
-
-```html
-<script src="https://prod.memberdriver.com/iframeLoader.js"></script>
 ```
 
 ## Configuration
@@ -89,17 +80,24 @@ All the following options are optional and included in the button snippet creato
 | customStyle | CSS overrides to default styling on the button | `''` |
 | text | Text to display in the button | `Sign Up` |
 
-### IFrame
+## Contributing
 
-All the following options are optional and included in the iframe snippet creator
+There are a number of environment variables that must be set to develop correctly. These are altered during deployment to alpha and production environments by CircleCI. They should be set in whichever shell is going to run `npm start` or `yarn start`. A sample with defaults has been provided at `.env.sample`.
 
-| Name | Description | Default |
-| --- | --- | --- |
-| location | US state to prefill on profile | `''` |
-| employer | Employer name to prefill on profile | `''` |
-| local | Local name to prefill on profile | `''` |
-| height | how tall the iframe should be when loaded | `480px` |
-| width | how wide the iframe should be when loaded | `640px` |
+ * `API_URL` - location of the union.fund instance to use as the base endpoint for API calls
+ * `BOOTSTRAP_ENDPOINT` - path of union.fund API endpoint to gain token used to sign API calls with
+ * `GITHUB_API_TOKEN` - [personal access token](https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line) used when creating new prelease/release deployments to Github
+ * `SCRIPT_DOMAIN` - location of widget.fund instance
+
+Other environment variables are referenced throughout the code and scripts related to AWS products but should only matter when deploying via CircleCI.
+
+A collection of scripts noted in `package.json` should take care of all local development needs:
+
+ * `npm start` - run a development server on port 8080
+ * `npm test` - run automated test suite
+ * `npm visualize` - use [webpack-bundle-analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer) to visualize bundle size and distribution
+
+The [git flow](https://nvie.com/posts/a-successful-git-branching-model/) branching model is roughly followed, leading pushes to `develop` to deploy the alpha environment via CircleCI and pushes to `master` deploy production. Versions of the integrations testing forms as built in `index.html` are available at `alpha.memberdriver.com` and `prod.memberdriver.com` respectively for testing against alpha/prod deployments.
 
 ## License
 
